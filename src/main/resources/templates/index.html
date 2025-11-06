@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagina principală</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-pink-200 via-pink-100 to-white min-h-screen flex items-center justify-center">
+
+<div class="bg-white bg-opacity-30 backdrop-blur-xl p-10 rounded-3xl shadow-2xl text-center max-w-lg w-full border border-white border-opacity-40">
+    <h1 class="text-4xl font-extrabold text-pink-700 mb-4 drop-shadow-sm">
+        Bine ai venit în aplicație!
+    </h1>
+
+    <p class="text-pink-700/80 mb-8 text-lg">
+        Aceasta este pagina principală. Te rugăm să te autentifici pentru a accesa detaliile contului tău.
+    </p>
+
+    <a href="/login" class="inline-block">
+        <button class="bg-pink-400 hover:bg-pink-500 transition duration-300 ease-in-out py-2 px-8 rounded-full
+                           text-white font-semibold shadow-md hover:shadow-pink-300/50 text-lg">
+            Login
+        </button>
+    </a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TimeTrackr</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gradient-to-br from-pink-200 via-pink-100 to-white min-h-screen flex flex-col">
+
+<!-- Header -->
+<header class="bg-white bg-opacity-30 backdrop-blur-xl border-b border-white border-opacity-40 shadow-md">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-pink-700">TimeTrackr</h1>
+        <button class="bg-pink-400 text-white px-4 py-2 rounded-lg hover:bg-pink-500 transition">Logout</button>
+    </div>
+</header>
+
+<main class="flex-grow px-6 py-8 max-w-6xl mx-auto space-y-8">
+
+    <!-- Formular adăugare activitate manuală -->
+    <div class="bg-white bg-opacity-40 backdrop-blur-xl rounded-2xl p-6 shadow-md">
+        <h2 class="text-xl font-semibold text-pink-700 mb-4">Adaugă activitate manuală</h2>
+        <form id="activityForm" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <input type="text" id="activityName" placeholder="Nume activitate" class="p-2 rounded-lg border" required />
+            <select id="activityCategory" class="p-2 rounded-lg border" required>
+                <option value="Muncă">Muncă</option>
+                <option value="Studii">Studii</option>
+                <option value="Relaxare">Relaxare</option>
+                <option value="Altele">Altele</option>
+            </select>
+            <input type="number" id="activityHours" placeholder="Timp (ore)" step="0.1" class="p-2 rounded-lg border" required />
+            <button type="submit" class="bg-pink-500 text-white rounded-lg px-4 py-2 hover:bg-pink-600 transition">Adaugă</button>
+        </form>
+    </div>
+
+    <!-- To-Do Timer -->
+    <div class="bg-white bg-opacity-40 backdrop-blur-xl rounded-2xl p-6 shadow-md">
+        <h2 class="text-xl font-semibold text-pink-700 mb-4">To-Do Timer</h2>
+        <div class="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
+            <input type="text" id="todoName" placeholder="Activitate" class="p-2 rounded-lg border" />
+            <input type="number" id="todoHours" placeholder="Durata (ore)" step="0.1" class="p-2 rounded-lg border" />
+            <button id="todoStart" class="bg-pink-500 text-white px-4 py-2 rounded-lg hover:bg-pink-600 transition">Start</button>
+        </div>
+        <div class="mt-2">
+            <span id="todoTimer" class="text-lg font-semibold">00:00:00</span>
+        </div>
+    </div>
+
+    <!-- Cronometru activitate -->
+    <div class="bg-white bg-opacity-40 backdrop-blur-xl rounded-2xl p-6 shadow-md">
+        <h2 class="text-xl font-semibold text-pink-700 mb-4">Cronometru activitate</h2>
+        <div class="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
+            <input type="text" id="timerActivityName" placeholder="Activitate" class="p-2 rounded-lg border" />
+            <select id="timerActivityCategory" class="p-2 rounded-lg border">
+                <option value="Muncă">Muncă</option>
+                <option value="Studii">Studii</option>
+                <option value="Relaxare">Relaxare</option>
+                <option value="Altele">Altele</option>
+            </select>
+            <button id="startBtn" class="bg-pink-500 text-white px-4 py-2 rounded-lg hover:bg-pink-600 transition">Start</button>
+            <button id="stopBtn" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition">Stop</button>
+        </div>
+        <div class="mt-2">
+            <span id="timer" class="text-lg font-semibold">00:00:00</span>
+        </div>
+    </div>
+
+    <!-- Lista activități totale -->
+    <div class="bg-white bg-opacity-40 backdrop-blur-xl rounded-2xl p-6 shadow-md">
+        <h2 class="text-xl font-semibold text-pink-700 mb-4">Activități astăzi</h2>
+        <table class="w-full text-left">
+            <thead>
+            <tr class="text-pink-700">
+                <th class="p-2">Activitate</th>
+                <th class="p-2">Categorie</th>
+                <th class="p-2">Timp (ore)</th>
+                <th class="p-2">Interval</th>
+                <th class="p-2">Acțiuni</th>
+            </tr>
+            </thead>
+            <tbody id="activityTable">
+            <!-- dummy inițial -->
+            <tr class="bg-white bg-opacity-20">
+                <td class="p-2">Scris cod</td>
+                <td class="p-2">Muncă</td>
+                <td class="p-2">2</td>
+                <td class="p-2">09:00 - 11:00</td>
+                <td class="p-2"><button class="text-red-500 hover:underline" onclick="deleteRow(this)">Șterge</button></td>
+            </tr>
+            <tr class="bg-white bg-opacity-20">
+                <td class="p-2">Curs online</td>
+                <td class="p-2">Studii</td>
+                <td class="p-2">1.5</td>
+                <td class="p-2">11:30 - 13:00</td>
+                <td class="p-2"><button class="text-red-500 hover:underline" onclick="deleteRow(this)">Șterge</button></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Grafice -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white bg-opacity-40 backdrop-blur-xl rounded-2xl p-6 shadow-md">
+            <h2 class="text-xl font-semibold text-pink-700 mb-4">Distribuția timpului pe categorii</h2>
+            <canvas id="timeChart" class="w-full h-64"></canvas>
+        </div>
+        <div class="bg-white bg-opacity-40 backdrop-blur-xl rounded-2xl p-6 shadow-md">
+            <h2 class="text-xl font-semibold text-pink-700 mb-4">Ore pe activități</h2>
+            <canvas id="projectChart" class="w-full h-64"></canvas>
+        </div>
+    </div>
+
+</main>
+
+<script>
+    const table = document.getElementById('activityTable');
+
+    // Grafice
+    const ctxTime = document.getElementById('timeChart').getContext('2d');
+    const timeChart = new Chart(ctxTime,{
+        type:'pie',
+        data:{labels:[], datasets:[{data:[], backgroundColor:['#F472B6','#FDB5C9','#FFE4E1','#FFC0CB']}]},
+        options:{responsive:true}
+    });
+
+    const ctxProject = document.getElementById('projectChart').getContext('2d');
+    const projectChart = new Chart(ctxProject,{
+        type:'bar',
+        data:{labels:[], datasets:[{label:'Ore', data:[], backgroundColor:'#F472B6'}]},
+        options:{responsive:true, scales:{y:{beginAtZero:true}}}
+    });
+
+    function updateCharts(){
+        const activities = [];
+        table.querySelectorAll('tr').forEach(row=>{
+            const cells=row.querySelectorAll('td');
+            if(cells.length>0){
+                activities.push({
+                    name: cells[0].textContent,
+                    category: cells[1].textContent,
+                    hours: parseFloat(cells[2].textContent)
+                });
+            }
+        });
+
+        const categoryMap = {};
+        activities.forEach(a=>categoryMap[a.category]=(categoryMap[a.category]||0)+a.hours);
+        timeChart.data.labels = Object.keys(categoryMap);
+        timeChart.data.datasets[0].data = Object.values(categoryMap);
+        timeChart.update();
+
+        projectChart.data.labels = activities.map(a=>a.name);
+        projectChart.data.datasets[0].data = activities.map(a=>a.hours);
+        projectChart.update();
+    }
+
+    // Adăugare manuală
+    document.getElementById('activityForm').addEventListener('submit', function(e){
+        e.preventDefault();
+        const name=document.getElementById('activityName').value;
+        const category=document.getElementById('activityCategory').value;
+        const hours=parseFloat(document.getElementById('activityHours').value);
+
+        const now = new Date();
+        const startTime = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        const endTime = new Date(now.getTime() + hours*3600000).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+
+        const row = table.insertRow();
+        row.className="bg-white bg-opacity-20";
+        row.innerHTML=`<td class="p-2">${name}</td>
+                   <td class="p-2">${category}</td>
+                   <td class="p-2">${hours}</td>
+                   <td class="p-2">${startTime} - ${endTime}</td>
+                   <td class="p-2"><button class="text-red-500 hover:underline" onclick="deleteRow(this)">Șterge</button></td>`;
+        this.reset();
+        updateCharts();
+    });
+
+    // Delete row
+    function deleteRow(btn){
+        const row = btn.parentNode.parentNode;
+        row.remove();
+        updateCharts();
+    }
+
+    // Cronometru activitate
+    let timerInterval, timerSeconds=0, currentStart=null;
+    const timerEl = document.getElementById('timer');
+    const startBtn = document.getElementById('startBtn');
+    const stopBtn = document.getElementById('stopBtn');
+
+    function formatTime(sec){
+        const h=Math.floor(sec/3600);
+        const m=Math.floor((sec%3600)/60);
+        const s=sec%60;
+        return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    }
+
+    startBtn.addEventListener('click', ()=>{
+        clearInterval(timerInterval);
+        timerSeconds=0;
+        currentStart=new Date();
+        timerEl.textContent=formatTime(timerSeconds);
+        timerInterval=setInterval(()=>{
+            timerSeconds++;
+            timerEl.textContent=formatTime(timerSeconds);
+        },1000);
+    });
+
+    stopBtn.addEventListener('click', ()=>{
+        clearInterval(timerInterval);
+        const currentEnd = new Date();
+        const hours = (timerSeconds/3600).toFixed(2);
+        const name=document.getElementById('timerActivityName').value || "Activitate";
+        const category=document.getElementById('timerActivityCategory').value || "General";
+
+        const row = table.insertRow();
+        row.className="bg-white bg-opacity-20";
+        row.innerHTML=`<td class="p-2">${name}</td>
+                   <td class="p-2">${category}</td>
+                   <td class="p-2">${hours}</td>
+                   <td class="p-2">${currentStart.toLocaleTimeString()} - ${currentEnd.toLocaleTimeString()}</td>
+                   <td class="p-2"><button class="text-red-500 hover:underline" onclick="deleteRow(this)">Șterge</button></td>`;
+        timerEl.textContent="00:00:00";
+        updateCharts();
+    });
+
+    // To-Do Timer
+    let todoTimerInterval=0, todoSeconds=0;
+    const todoTimerEl=document.getElementById('todoTimer');
+    document.getElementById('todoStart').addEventListener('click', ()=>{
+        clearInterval(todoTimerInterval);
+        todoSeconds = Math.floor(parseFloat(document.getElementById('todoHours').value)*3600 || 0);
+        if(todoSeconds<=0) return alert("Introduceți durata!");
+        todoTimerEl.textContent=formatTime(todoSeconds);
+        todoTimerInterval=setInterval(()=>{
+            todoSeconds--;
+            todoTimerEl.textContent=formatTime(todoSeconds);
+            if(todoSeconds<=0){
+                clearInterval(todoTimerInterval);
+                alert(`Timpul pentru "${document.getElementById('todoName').value}" s-a terminat!`);
+                // adăugare automat în tabel activități
+                const name=document.getElementById('todoName').value || "Activitate To-Do";
+                const category="General";
+                const hours=parseFloat(document.getElementById('todoHours').value);
+                const now = new Date();
+                const end = new Date(now.getTime() + hours*3600000);
+                const row = table.insertRow();
+                row.className="bg-white bg-opacity-20";
+                row.innerHTML=`<td class="p-2">${name}</td>
+                           <td class="p-2">${category}</td>
+                           <td class="p-2">${hours}</td>
+                           <td class="p-2">${now.toLocaleTimeString()} - ${end.toLocaleTimeString()}</td>
+                           <td class="p-2"><button class="text-red-500 hover:underline" onclick="deleteRow(this)">Șterge</button></td>`;
+                updateCharts();
+            }
+        },1000);
+    });
+
+    updateCharts(); // inițializare grafice
+
+</script>
+
+</body>
+</html>
