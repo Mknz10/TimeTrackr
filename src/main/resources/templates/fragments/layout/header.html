@@ -1,21 +1,72 @@
-<header th:fragment="siteHeader"
-  class="bg-white bg-opacity-30 backdrop-blur-xl border-b border-white border-opacity-40 shadow-md"
->
-  <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-    <h1 class="text-2xl font-bold text-pink-700">TimeTrackr</h1>
-    <div class="flex items-center gap-4">
-      <span
-        class="text-pink-600 font-semibold"
-        th:text="${displayName} ?: 'User'"
-      ></span>
-      <form th:action="@{/logout}" method="post">
+<th:block th:fragment="siteHeader">
+  <header
+    class="relative z-40 bg-white bg-opacity-30 backdrop-blur-xl border-b border-white border-opacity-40 shadow-md"
+  >
+    <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+      <a
+        href="/home"
+        th:href="@{/home}"
+        class="text-2xl font-bold text-pink-700 hover:text-pink-600 transition"
+        aria-label="Mergi la pagina principală"
+      >
+        TimeTrackr
+      </a>
+      <div class="relative" data-profile-menu>
         <button
-          type="submit"
-          class="bg-pink-400 text-white px-4 py-2 rounded-lg hover:bg-pink-500 transition"
+          type="button"
+          class="flex items-center gap-2 bg-white/70 text-pink-600 font-semibold px-4 py-2 rounded-lg border border-pink-200 hover:bg-white transition"
+          data-profile-trigger
+          aria-haspopup="true"
+          aria-expanded="false"
         >
-          Logout
+          <span th:text="${displayName} ?: 'Profil'"></span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4 text-pink-500"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="1.5"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M19 9l-7 7-7-7"
+            />
+          </svg>
         </button>
-      </form>
+        <div
+          class="hidden absolute right-0 mt-2 w-48 rounded-xl border border-pink-100 bg-white shadow-lg shadow-pink-200/60 py-2 z-50"
+          data-profile-dropdown
+          role="menu"
+          aria-label="Profile options"
+        >
+          <a
+            href="/profile"
+            th:href="@{/profile}"
+            class="block px-4 py-2 text-sm text-pink-600 hover:bg-pink-50"
+            role="menuitem"
+          >
+            Setări profil
+          </a>
+          <div class="border-t border-pink-100 my-1"></div>
+          <form th:action="@{/logout}" method="post" role="none">
+            <button
+              type="submit"
+              class="w-full text-left block px-4 py-2 text-sm text-pink-600 hover:bg-pink-50"
+              role="menuitem"
+            >
+              Delogare
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
-  </div>
-</header>
+  </header>
+
+  <script
+    src="/js/shared/profile-menu.js"
+    th:src="@{/js/shared/profile-menu.js}"
+    defer
+  ></script>
+</th:block>

@@ -1,13 +1,28 @@
 (function (app) {
+  const { toLocalDateTimeString } = app.utils || {};
+
   function initializeDates() {
     const { selectedDateInput, selectedDateDisplay, heroTodayDate } = app.dom;
     const today = new Date();
     if (selectedDateInput) {
-      selectedDateInput.valueAsDate = today;
+      if (typeof selectedDateInput.valueAsDate !== "undefined") {
+        selectedDateInput.valueAsDate = today;
+      }
+      const formattedToday = toLocalDateTimeString
+        ? toLocalDateTimeString(today).slice(0, 10)
+        : null;
+      if (formattedToday) {
+        selectedDateInput.value = formattedToday;
+      }
     }
     if (selectedDateDisplay) {
       selectedDateDisplay.textContent = today.toLocaleDateString(
-        app.constants.APP_LOCALE
+        app.constants.APP_LOCALE,
+        {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        }
       );
     }
     if (heroTodayDate) {
@@ -28,7 +43,7 @@
       app.categories.init();
     }
     if (app.manualActivity) {
-      app.manualActivity.setDefaultManualStartTime();
+      app.manualActivity.setDefaultManualRange();
       app.manualActivity.init();
     }
     if (app.activityTimer) {
@@ -43,23 +58,28 @@
     }
   }
 
-  function loadData() {
+  async function loadData() {
     if (app.categories) {
-      app.categories.loadCategories();
+      await app.categories.loadCategories();
     }
     if (app.activities) {
-      app.activities.loadActivities();
+      await app.activities.loadActivities();
     }
   }
 
-  function init() {
+  async function init() {
     initializeDates();
     initializeFragments();
-    loadData();
+    if (app.workspaces && typeof app.workspaces.init === "function") {
+      await app.workspaces.init();
+    }
+    await loadData();
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
+    document.addEventListener("DOMContentLoaded", () => {
+      init();
+    });
   } else {
     init();
   }

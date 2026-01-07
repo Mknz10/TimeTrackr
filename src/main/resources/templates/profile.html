@@ -26,7 +26,8 @@
       <section class="space-y-3">
         <h1 class="text-3xl font-semibold text-pink-700">Profilul meu</h1>
         <p class="text-pink-700/80">
-          Actualizează numele afișat, numele de utilizator sau parola contului tău.
+          Actualizează numele afișat, numele de utilizator sau parola contului
+          tău.
         </p>
       </section>
 
@@ -36,14 +37,21 @@
         <div>
           <h2 class="text-xl font-semibold text-pink-700">Detalii cont</h2>
           <p class="text-sm text-pink-700/70">
-            Informațiile actualizate se aplică instant și vor fi folosite la următoarea autentificare.
+            Informațiile actualizate se aplică instant și vor fi folosite la
+            următoarea autentificare.
           </p>
         </div>
 
-        <div th:if="${accountSuccess}" class="bg-green-100 text-green-700 px-4 py-3 rounded-lg">
+        <div
+          th:if="${accountSuccess}"
+          class="bg-green-100 text-green-700 px-4 py-3 rounded-lg"
+        >
           <span th:text="${accountSuccess}"></span>
         </div>
-        <div th:if="${accountError}" class="bg-red-100 text-red-700 px-4 py-3 rounded-lg">
+        <div
+          th:if="${accountError}"
+          class="bg-red-100 text-red-700 px-4 py-3 rounded-lg"
+        >
           <span th:text="${accountError}"></span>
         </div>
 
@@ -53,7 +61,9 @@
           class="grid gap-6 md:grid-cols-2"
         >
           <div class="flex flex-col gap-2">
-            <label for="displayName" class="text-sm font-medium text-pink-600">Nume afișat</label>
+            <label for="displayName" class="text-sm font-medium text-pink-600"
+              >Nume afișat</label
+            >
             <input
               id="displayName"
               name="name"
@@ -65,7 +75,9 @@
             />
           </div>
           <div class="flex flex-col gap-2">
-            <label for="username" class="text-sm font-medium text-pink-600">Nume utilizator</label>
+            <label for="username" class="text-sm font-medium text-pink-600"
+              >Nume utilizator</label
+            >
             <input
               id="username"
               name="username"
@@ -94,20 +106,35 @@
         <div>
           <h2 class="text-xl font-semibold text-pink-700">Schimbă parola</h2>
           <p class="text-sm text-pink-700/70">
-            Parola trebuie să aibă cel puțin 6 caractere și se recomandă să fie unică pentru acest cont.
+            Parola trebuie să aibă cel puțin 6 caractere și se recomandă să fie
+            unică pentru acest cont.
           </p>
         </div>
 
-        <div th:if="${passwordSuccess}" class="bg-green-100 text-green-700 px-4 py-3 rounded-lg">
+        <div
+          th:if="${passwordSuccess}"
+          class="bg-green-100 text-green-700 px-4 py-3 rounded-lg"
+        >
           <span th:text="${passwordSuccess}"></span>
         </div>
-        <div th:if="${passwordError}" class="bg-red-100 text-red-700 px-4 py-3 rounded-lg">
+        <div
+          th:if="${passwordError}"
+          class="bg-red-100 text-red-700 px-4 py-3 rounded-lg"
+        >
           <span th:text="${passwordError}"></span>
         </div>
 
-        <form th:action="@{/profile/update-password}" method="post" class="grid gap-6">
+        <form
+          th:action="@{/profile/update-password}"
+          method="post"
+          class="grid gap-6"
+        >
           <div class="flex flex-col gap-2">
-            <label for="currentPassword" class="text-sm font-medium text-pink-600">Parola curentă</label>
+            <label
+              for="currentPassword"
+              class="text-sm font-medium text-pink-600"
+              >Parola curentă</label
+            >
             <input
               id="currentPassword"
               name="currentPassword"
@@ -119,7 +146,9 @@
             />
           </div>
           <div class="flex flex-col gap-2">
-            <label for="newPassword" class="text-sm font-medium text-pink-600">Parolă nouă</label>
+            <label for="newPassword" class="text-sm font-medium text-pink-600"
+              >Parolă nouă</label
+            >
             <input
               id="newPassword"
               name="newPassword"
@@ -132,7 +161,11 @@
             />
           </div>
           <div class="flex flex-col gap-2">
-            <label for="confirmPassword" class="text-sm font-medium text-pink-600">Confirmă parola nouă</label>
+            <label
+              for="confirmPassword"
+              class="text-sm font-medium text-pink-600"
+              >Confirmă parola nouă</label
+            >
             <input
               id="confirmPassword"
               name="confirmPassword"

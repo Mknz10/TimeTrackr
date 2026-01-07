@@ -1,12 +1,24 @@
-<section th:fragment="heroSection"
+<section
+  th:fragment="heroSection"
   class="relative overflow-hidden rounded-3xl border border-white/40 bg-white/30 p-8 shadow-xl backdrop-blur-lg"
 >
-  <div class="pointer-events-none absolute inset-0 bg-gradient-to-r from-pink-500/30 via-white/10 to-transparent"></div>
-  <div class="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+  <div
+    class="pointer-events-none absolute inset-0 bg-gradient-to-r from-pink-500/30 via-white/10 to-transparent"
+  ></div>
+  <div
+    class="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between"
+  >
     <div class="space-y-4 text-pink-900">
       <p class="text-xl uppercase tracking-[0.35em] text-pink-700/80">
         Bine ai revenit
       </p>
+      <a
+        href="/workspace"
+        class="inline-flex items-center gap-2 rounded-xl border border-pink-200 bg-white/70 px-5 py-2 text-sm font-semibold text-pink-600 transition hover:bg-white"
+      >
+        Deschide workspaces
+        <span aria-hidden="true">→</span>
+      </a>
     </div>
     <div class="flex flex-col items-start gap-4 md:items-end">
       <p

@@ -3,11 +3,10 @@ package com.example.proiectpaw.security;
 import java.util.regex.Pattern;
 
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.example.proiectpaw.repository.UserRepository;
-
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Component
 public class PasswordMigrationRunner implements CommandLineRunner {

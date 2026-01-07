@@ -1,18 +1,43 @@
-<section th:fragment="activityJournalSection"
+<section
+  th:fragment="activityJournalSection (context)"
   class="relative overflow-hidden rounded-3xl border border-white/40 bg-white/30 p-6 shadow-xl backdrop-blur"
 >
-  <div class="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/40 to-transparent"></div>
+  <div
+    class="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/40 to-transparent"
+  ></div>
   <div class="relative flex flex-col gap-6">
-    <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-      <div>
+    <div
+      class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
+    >
+      <div class="flex flex-col gap-2">
         <p class="text-m uppercase tracking-[0.35em] text-pink-700/70">
           Jurnal de activități pentru
         </p>
-        <h2 class="text-2xl font-semibold text-pink-900">
-          <span id="selectedDateDisplay"></span>
-        </h2>
+        <div class="flex items-center gap-3 text-pink-900">
+          <button
+            id="datePrevBtn"
+            type="button"
+            aria-label="Interval anterior"
+            class="flex h-9 w-9 items-center justify-center rounded-full border border-white/60 bg-white/80 text-xl font-semibold text-pink-600 shadow-sm transition hover:bg-pink-100 focus:outline-none focus:ring-2 focus:ring-pink-300"
+          >
+            &lsaquo;
+          </button>
+          <h2 class="text-2xl font-semibold">
+            <span id="selectedDateDisplay"></span>
+          </h2>
+          <button
+            id="dateNextBtn"
+            type="button"
+            aria-label="Interval următor"
+            class="flex h-9 w-9 items-center justify-center rounded-full border border-white/60 bg-white/80 text-xl font-semibold text-pink-600 shadow-sm transition hover:bg-pink-100 focus:outline-none focus:ring-2 focus:ring-pink-300"
+          >
+            &rsaquo;
+          </button>
+        </div>
       </div>
-      <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
+      <div
+        class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end"
+      >
         <input
           type="date"
           id="selectedDate"
@@ -36,18 +61,31 @@
         </button>
       </div>
     </div>
-    <div class="overflow-hidden rounded-2xl border border-white/40 bg-white/20 shadow-inner">
+    <div
+      class="overflow-hidden rounded-2xl border border-white/40 bg-white/20 shadow-inner"
+    >
       <table class="w-full text-left text-pink-900">
-        <thead class="bg-white/40 text-xs uppercase tracking-wider text-pink-700">
+        <thead
+          class="bg-pink-50 text-pink-600 text-sm uppercase tracking-wider"
+        >
           <tr>
             <th class="px-4 py-3">Activitate</th>
             <th class="px-4 py-3">Categorie</th>
-            <th class="px-4 py-3">Timp (ore)</th>
+            <th
+              class="px-4 py-3"
+              th:text="${context} == 'workspace' ? 'Membru' : 'Workspace'"
+            >
+              Workspace
+            </th>
+            <th class="px-4 py-3">Timp</th>
             <th class="px-4 py-3">Interval</th>
             <th class="px-4 py-3">Acțiuni</th>
           </tr>
         </thead>
-        <tbody id="activityTable" class="divide-y divide-white/40 text-sm"></tbody>
+        <tbody
+          id="activityTable"
+          class="divide-y divide-white/40 text-sm"
+        ></tbody>
       </table>
     </div>
   </div>

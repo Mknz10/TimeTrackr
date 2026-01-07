@@ -1,44 +1,134 @@
-<div th:fragment="manualActivityCard"
+<section
+  th:fragment="manualActivity"
   class="relative overflow-hidden rounded-3xl border border-white/40 bg-white/30 p-6 shadow-lg backdrop-blur"
 >
-  <div class="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/40 to-transparent"></div>
-  <h2 class="relative text-xl font-semibold text-pink-900">
-    Adaugă activitate manuală
-  </h2>
-  <p class="relative mt-1 text-sm text-pink-900/70">
-    Completează detaliile pentru a înregistra o activitate realizată deja.
-  </p>
-  <form id="activityForm" class="relative mt-4 grid grid-cols-1 gap-4 md:grid-cols-5">
-    <input
-      type="text"
-      id="activityName"
-      placeholder="Nume activitate"
-      class="rounded-lg border border-white/60 bg-white/80 p-3 text-pink-900 placeholder-pink-400 focus:border-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-300"
-      required
-    />
-    <select
-      id="activityCategory"
-      class="rounded-lg border border-white/60 bg-white/80 p-3 text-pink-900 focus:border-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-300"
-      required
-    ></select>
-    <input
-      type="number"
-      id="activityHours"
-      placeholder="Durata (ore)"
-      step="0.1"
-      class="rounded-lg border border-white/60 bg-white/80 p-3 text-pink-900 placeholder-pink-400 focus:border-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-300"
-      required
-    />
-    <input
-      type="datetime-local"
-      id="activityStartTime"
-      class="rounded-lg border border-white/60 bg-white/80 p-3 text-pink-900 focus:border-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-300"
-    />
-    <button
-      type="submit"
-      class="rounded-lg bg-pink-500 px-5 py-3 font-semibold text-white shadow-md shadow-pink-500/40 transition hover:bg-pink-600"
+  <div
+    class="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/40 to-transparent"
+  ></div>
+  <div class="relative space-y-2">
+    <h2 class="text-xl font-semibold text-pink-900">
+      Adaugă activitate manuală
+    </h2>
+  </div>
+  <form
+    id="activityForm"
+    class="relative mt-6 grid grid-cols-1 gap-4 lg:grid-cols-6"
+  >
+    <div class="flex flex-col gap-2 lg:col-span-2">
+      <label for="activityName" class="text-sm font-semibold text-pink-500">
+        Nume activitate
+      </label>
+      <input
+        type="text"
+        id="activityName"
+        placeholder="Ex: Studiu React"
+        class="rounded-lg border border-white/60 bg-white/80 p-3 text-pink-900 placeholder-pink-300 focus:border-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-300"
+        required
+      />
+    </div>
+    <div class="flex flex-col gap-2 lg:col-span-2">
+      <label for="activityCategory" class="text-sm font-semibold text-pink-500">
+        Categorie
+      </label>
+      <select
+        id="activityCategory"
+        class="rounded-lg border border-white/60 bg-white/80 p-3 text-pink-900 focus:border-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-300"
+        required
+      ></select>
+    </div>
+    <div class="flex flex-col gap-2 lg:col-span-3">
+      <div class="flex items-center justify-between">
+        <label
+          for="activityStartTime"
+          class="text-sm font-semibold text-pink-500"
+        >
+          Începe
+        </label>
+      </div>
+      <input
+        type="datetime-local"
+        id="activityStartTime"
+        class="rounded-lg border border-white/60 bg-white/80 p-3 text-pink-900 focus:border-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-300"
+        required
+      />
+    </div>
+    <div class="flex flex-col gap-2 lg:col-span-3">
+      <label for="activityEndTime" class="text-sm font-semibold text-pink-500">
+        Se termină
+      </label>
+      <input
+        type="datetime-local"
+        id="activityEndTime"
+        class="rounded-lg border border-white/60 bg-white/80 p-3 text-pink-900 focus:border-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-300"
+        required
+      />
+    </div>
+    <div
+      class="flex flex-col gap-3 rounded-2xl border border-white/60 bg-white/70 p-4 text-pink-900 lg:col-span-6"
     >
-      Adaugă
-    </button>
+      <span class="text-xs font-semibold uppercase tracking-wide text-pink-400">
+        Durată rapidă
+      </span>
+      <div
+        class="flex flex-wrap gap-2"
+        id="durationQuickButtons"
+        aria-label="Presetări durată"
+      >
+        <button
+          type="button"
+          class="rounded-full border border-pink-200 bg-white/80 px-4 py-2 text-sm font-medium text-pink-500 transition hover:border-pink-400 hover:text-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-300"
+          data-duration="0.25"
+        >
+          15 min
+        </button>
+        <button
+          type="button"
+          class="rounded-full border border-pink-200 bg-white/80 px-4 py-2 text-sm font-medium text-pink-500 transition hover:border-pink-400 hover:text-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-300"
+          data-duration="0.5"
+        >
+          30 min
+        </button>
+        <button
+          type="button"
+          class="rounded-full border border-pink-200 bg-white/80 px-4 py-2 text-sm font-medium text-pink-500 transition hover:border-pink-400 hover:text-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-300"
+          data-duration="0.75"
+        >
+          45 min
+        </button>
+        <button
+          type="button"
+          class="rounded-full border border-pink-200 bg-white/80 px-4 py-2 text-sm font-medium text-pink-500 transition hover:border-pink-400 hover:text-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-300"
+          data-duration="1"
+        >
+          1 oră
+        </button>
+        <button
+          type="button"
+          class="rounded-full border border-pink-200 bg-white/80 px-4 py-2 text-sm font-medium text-pink-500 transition hover:border-pink-400 hover:text-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-300"
+          data-duration="1.5"
+        >
+          1h 30
+        </button>
+        <button
+          type="button"
+          class="rounded-full border border-pink-200 bg-white/80 px-4 py-2 text-sm font-medium text-pink-500 transition hover:border-pink-400 hover:text-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-300"
+          data-duration="2"
+        >
+          2 ore
+        </button>
+      </div>
+      <p id="activityDurationLabel" class="text-sm text-pink-600">
+        Alege un interval pentru a vedea durata totală.
+      </p>
+      <input type="hidden" id="activityHours" />
+    </div>
+    <div class="flex flex-col justify-end lg:col-span-6">
+      <button
+        type="submit"
+        class="w-full rounded-lg bg-pink-500 px-6 py-3 font-semibold text-white shadow-md shadow-pink-500/40 transition hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-300 focus:ring-offset-2 focus:ring-offset-white/70"
+      >
+        Salvează
+      </button>
+    </div>
   </form>
-</div>
+</section>

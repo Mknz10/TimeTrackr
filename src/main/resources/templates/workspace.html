@@ -25,12 +25,19 @@
     <header th:replace="fragments/layout/header :: siteHeader"></header>
 
     <main class="flex-grow px-6 py-12 max-w-6xl mx-auto space-y-12">
-      <section th:replace="fragments/workspace/hero :: workspaceHeroSection"></section>
+      <section
+        th:replace="fragments/workspace/hero :: workspaceHeroSection"
+      ></section>
       <section th:replace="fragments/home/stats :: statsSection"></section>
       <section class="grid grid-cols-1 gap-6 xl:grid-cols-3">
-        <section
-          th:replace="fragments/home/category-card :: categoryCard"
-        ></section>
+        <div class="grid grid-cols-1 gap-6">
+          <section
+            th:replace="fragments/workspace/member-list :: workspaceMemberList"
+          ></section>
+          <section
+            th:replace="fragments/home/category-card :: categoryCard"
+          ></section>
+        </div>
         <div class="xl:col-span-2 space-y-6">
           <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
             <section
@@ -46,13 +53,16 @@
         </div>
       </section>
       <section
-        th:replace="fragments/home/activity-journal :: activityJournalSection"
+        th:replace="~{fragments/home/activity-journal :: activityJournalSection('workspace')}"
       ></section>
       <div th:replace="fragments/home/charts :: chartsSection"></div>
     </main>
 
     <script src="/js/home/globals.js" th:src="@{/js/home/globals.js}"></script>
-    <script src="/js/home/workspaces.js" th:src="@{/js/home/workspaces.js}"></script>
+    <script
+      src="/js/home/workspaces.js"
+      th:src="@{/js/home/workspaces.js}"
+    ></script>
     <script
       src="/js/home/categories.js"
       th:src="@{/js/home/categories.js}"

@@ -1,12 +1,26 @@
 (function (app) {
-  const { ACTIVITY_API_URL } = app.constants;
+  const { ACTIVITY_API_URL, PERSONAL_ACTIVITY_API_URL } = app.constants;
   const state = app.state;
+  const { toLocalDateTimeString } = app.utils;
   const {
     timerDisplay,
     timerToggleBtn,
     timerActivityName,
     timerActivityCategory,
   } = app.dom;
+
+  function getWorkspaceId() {
+    if (state.context !== "workspace") {
+      return null;
+    }
+    if (
+      !app.workspaces ||
+      typeof app.workspaces.getCurrentWorkspaceId !== "function"
+    ) {
+      return null;
+    }
+    return app.workspaces.getCurrentWorkspaceId();
+  }
 
   function setTimerButtonState(running) {
     if (!timerToggleBtn) {
@@ -47,6 +61,11 @@
     const category = timerActivityCategory.value.trim();
     if (!name || !category) {
       alert("Enter name & category");
+      return;
+    }
+
+    if (state.context === "workspace" && !getWorkspaceId()) {
+      alert("Selectați un workspace înainte de a porni timer-ul.");
       return;
     }
 
@@ -91,12 +110,24 @@
       name: timerActivityName ? timerActivityName.value.trim() : "",
       category: timerActivityCategory ? timerActivityCategory.value.trim() : "",
       hours: parseFloat(hours.toFixed(2)),
-      startTime: state.timerStartTime.toISOString(),
-      endTime: endTime.toISOString(),
+      startTime: toLocalDateTimeString(state.timerStartTime),
+      endTime: toLocalDateTimeString(endTime),
     };
 
     try {
-      const response = await fetch(ACTIVITY_API_URL, {
+      let requestUrl = PERSONAL_ACTIVITY_API_URL;
+      if (state.context === "workspace") {
+        const workspaceId = getWorkspaceId();
+        if (!workspaceId) {
+          alert("Selectați un workspace activ înainte de a salva activitatea.");
+          return;
+        }
+        requestUrl = `${ACTIVITY_API_URL}?workspaceId=${encodeURIComponent(
+          workspaceId
+        )}`;
+      }
+
+      const response = await fetch(requestUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(activity),

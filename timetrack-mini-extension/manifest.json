@@ -1,0 +1,31 @@
+{
+  "manifest_version": 3,
+  "name": "TimeTrackr Mini",
+  "version": "1.0",
+  "description": "Quick time tracking access for TimeTrackr users.",
+  "icons": {
+    "16": "assets/logo.svg",
+    "32": "assets/logo.svg",
+    "128": "assets/logo.svg"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "assets/logo.svg",
+      "32": "assets/logo.svg",
+      "128": "assets/logo.svg"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["activeTab", "storage", "tabs"],
+  "host_permissions": ["http://localhost:8080/*"],
+  "content_scripts": [
+    {
+      "matches": ["http://localhost:8080/*"],
+      "js": ["contentScript.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

@@ -11,4 +11,5 @@ import com.example.proiectpaw.model.WorkspaceActivity;
 public interface WorkspaceActivityRepository extends JpaRepository<WorkspaceActivity, Long> {
     List<WorkspaceActivity> findByWorkspaceIdOrderByStartTimeAsc(Long workspaceId);
     List<WorkspaceActivity> findByWorkspaceIdAndUserUsername(Long workspaceId, String username);
+    List<WorkspaceActivity> findByUserUsernameOrderByStartTimeAsc(String username);
 }

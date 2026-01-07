@@ -21,7 +21,6 @@ public class WorkspaceMember {
 
     public enum Role {
         OWNER,
-        ADMIN,
         MEMBER
     }
 

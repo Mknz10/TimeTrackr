@@ -1,42 +1,114 @@
-<section th:fragment="statsSection" class="grid grid-cols-1 gap-5 sm:grid-cols-3">
-  <div class="relative overflow-hidden rounded-2xl border border-white/40 bg-white/30 p-6 shadow-lg backdrop-blur">
-    <div class="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/50 to-transparent"></div>
+<section
+  th:fragment="statsSection"
+  class="grid grid-cols-1 gap-5 sm:grid-cols-3"
+>
+  <div
+    class="relative overflow-hidden rounded-2xl border border-white/40 bg-white/30 p-6 shadow-lg backdrop-blur"
+  >
+    <div
+      class="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/50 to-transparent"
+    ></div>
     <div class="relative flex items-center justify-between">
       <div>
-        <p class="text-xs uppercase tracking-[0.35em] text-pink-700/70">Activități</p>
-        <p id="statsTotalActivities" class="mt-3 text-3xl font-semibold text-pink-900">0</p>
+        <p class="text-xs uppercase tracking-[0.35em] text-pink-700/70">
+          Activități
+        </p>
+        <p
+          id="statsTotalActivities"
+          class="mt-3 text-3xl font-semibold text-pink-900"
+        >
+          0
+        </p>
       </div>
-      <span class="flex h-12 w-12 items-center justify-center rounded-full bg-pink-500/15 text-pink-600">
-        <svg class="h-8 w-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M4 19h16M8 17V7m4 10V5m4 12v-6" />
+      <span
+        class="flex h-12 w-12 items-center justify-center rounded-full bg-pink-500/15 text-pink-600"
+      >
+        <svg
+          class="h-8 w-8"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M4 19h16M8 17V7m4 10V5m4 12v-6"
+          />
         </svg>
       </span>
     </div>
   </div>
-  <div class="relative overflow-hidden rounded-2xl border border-white/40 bg-white/30 p-6 shadow-lg backdrop-blur">
-    <div class="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/50 to-transparent"></div>
+  <div
+    class="relative overflow-hidden rounded-2xl border border-white/40 bg-white/30 p-6 shadow-lg backdrop-blur"
+  >
+    <div
+      class="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/50 to-transparent"
+    ></div>
     <div class="relative flex items-center justify-between">
       <div>
-        <p class="text-xs uppercase tracking-[0.35em] text-pink-700/70">Ore totale</p>
-        <p id="statsTotalHours" class="mt-3 text-3xl font-semibold text-pink-900">0</p>
+        <p class="text-xs uppercase tracking-[0.35em] text-pink-700/70">
+          Ore totale
+        </p>
+        <p
+          id="statsTotalHours"
+          class="mt-3 text-3xl font-semibold text-pink-900"
+        >
+          0
+        </p>
       </div>
-      <span class="flex h-12 w-12 items-center justify-center rounded-full bg-pink-500/15 text-pink-600">
-        <svg class="h-8 w-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20z" />
+      <span
+        class="flex h-12 w-12 items-center justify-center rounded-full bg-pink-500/15 text-pink-600"
+      >
+        <svg
+          class="h-8 w-8"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 8v4l3 3M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20z"
+          />
         </svg>
       </span>
     </div>
   </div>
-  <div class="relative overflow-hidden rounded-2xl border border-white/40 bg-white/30 p-6 shadow-lg backdrop-blur">
-    <div class="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/50 to-transparent"></div>
+  <div
+    class="relative overflow-hidden rounded-2xl border border-white/40 bg-white/30 p-6 shadow-lg backdrop-blur"
+  >
+    <div
+      class="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/50 to-transparent"
+    ></div>
     <div class="relative flex items-center justify-between">
       <div>
-        <p class="text-xs uppercase tracking-[0.35em] text-pink-700/70">Ore studiu</p>
-        <p id="statsStudyHours" class="mt-3 text-3xl font-semibold text-pink-900">0</p>
+        <p class="text-xs uppercase tracking-[0.35em] text-pink-700/70">
+          Ore studiu
+        </p>
+        <p
+          id="statsStudyHours"
+          class="mt-3 text-3xl font-semibold text-pink-900"
+        >
+          0
+        </p>
       </div>
-      <span class="flex h-12 w-12 items-center justify-center rounded-full bg-pink-500/15 text-pink-600">
-        <svg class="h-8 w-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M5 5h6a2 2 0 0 1 2 2v12H7a2 2 0 0 1-2-2V5zm10 0h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-2V5z" />
+      <span
+        class="flex h-12 w-12 items-center justify-center rounded-full bg-pink-500/15 text-pink-600"
+      >
+        <svg
+          class="h-8 w-8"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M5 5h6a2 2 0 0 1 2 2v12H7a2 2 0 0 1-2-2V5zm10 0h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-2V5z"
+          />
         </svg>
       </span>
     </div>

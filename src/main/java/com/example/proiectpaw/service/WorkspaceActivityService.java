@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.proiectpaw.dto.UserActivityView;
 import com.example.proiectpaw.model.User;
 import com.example.proiectpaw.model.Workspace;
 import com.example.proiectpaw.model.WorkspaceActivity;
@@ -30,9 +31,14 @@ public class WorkspaceActivityService {
     }
 
     @Transactional(readOnly = true)
-    public List<WorkspaceActivity> getActivitiesForWorkspace(String username, Long workspaceId) {
+    public List<UserActivityView> getActivitiesForWorkspace(String username, Long workspaceId) {
         workspaceService.getWorkspaceForUser(username, workspaceId);
-        return activityRepository.findByWorkspaceIdOrderByStartTimeAsc(workspaceId);
+        List<WorkspaceActivity> activities = activityRepository.findByWorkspaceIdOrderByStartTimeAsc(workspaceId);
+        List<UserActivityView> result = new ArrayList<>();
+        for (WorkspaceActivity activity : activities) {
+            result.add(UserActivityView.fromWorkspace(activity));
+        }
+        return result;
     }
 
     @Transactional

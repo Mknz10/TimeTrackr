@@ -2,12 +2,41 @@
   app.constants = {
     ACTIVITY_API_URL: "http://localhost:8080/api/activities",
     CATEGORY_API_URL: "http://localhost:8080/api/categories",
-    STUDY_CATEGORY_KEYS: ["studii", "study", "studying"],
+    PERSONAL_ACTIVITY_API_URL: "http://localhost:8080/api/personal/activities",
+    PERSONAL_CATEGORY_API_URL: "http://localhost:8080/api/personal/categories",
+    WORKSPACE_API_URL: "http://localhost:8080/api/workspaces",
+    STUDY_CATEGORY_KEYS: [
+      "studii",
+      "study",
+      "studying",
+      "temă",
+      "tema",
+      "teme",
+      "curs",
+      "cursuri",
+      "laborator",
+      "seminar",
+      "proiect",
+      "examen",
+      "învățare",
+      "învatare",
+      "learning",
+      "homework",
+      "course",
+      "courses",
+      "lab",
+      "seminar",
+      "project",
+      "exam",
+    ],
     APP_LOCALE: "ro-RO",
   };
 
   app.state = {
-    cachedCategories: ["Muncă", "Studii", "Relaxare"],
+    context: document.body
+      ? document.body.dataset.context || "personal"
+      : "personal",
+    cachedCategories: [],
     timeChart: null,
     projectChart: null,
     timerInterval: null,
@@ -16,6 +45,9 @@
     todoEndTime: null,
     isTimerRunning: false,
     allActivities: [],
+    workspaces: [],
+    currentWorkspaceId: null,
+    workspaceMembers: [],
   };
 
   app.dom = {
@@ -26,6 +58,8 @@
       document.getElementById("todoCategory"),
       document.getElementById("timerActivityCategory"),
     ],
+    categoryToggleBtn: document.getElementById("toggleCategoryForm"),
+    categoryFormContainer: document.getElementById("categoryFormContainer"),
     categoryFeedback: document.getElementById("categoryFeedback"),
     categoryChipList: document.getElementById("categoryChipList"),
     statsTotalActivities: document.getElementById("statsTotalActivities"),
@@ -34,7 +68,10 @@
     statsRangeLabel: document.getElementById("statsRangeLabel"),
     selectedDateInput: document.getElementById("selectedDate"),
     selectedDateDisplay: document.getElementById("selectedDateDisplay"),
+    selectedWorkspaceLabel: document.getElementById("selectedWorkspaceLabel"),
     dateRangeSelect: document.getElementById("dateRange"),
+    datePrevBtn: document.getElementById("datePrevBtn"),
+    dateNextBtn: document.getElementById("dateNextBtn"),
     exportCsvBtn: document.getElementById("exportCsvBtn"),
     heroTodayDate: document.getElementById("heroTodayDate"),
     activityForm: document.getElementById("activityForm"),
@@ -48,6 +85,20 @@
     todoHoursInput: document.getElementById("todoHours"),
     todoStartBtn: document.getElementById("todoStart"),
     todoCategoryInput: document.getElementById("todoCategory"),
+    workspaceSelect: document.getElementById("workspaceSelect"),
+    workspaceCreateBtn: document.getElementById("workspaceCreateBtn"),
+    workspaceInviteBtn: document.getElementById("workspaceInviteBtn"),
+    workspaceRenameBtn: document.getElementById("workspaceRenameBtn"),
+    workspaceLeaveBtn: document.getElementById("workspaceLeaveBtn"),
+    workspaceNameDisplay: document.getElementById("workspaceNameDisplay"),
+    workspacePrevBtn: document.getElementById("workspacePrevBtn"),
+    workspaceNextBtn: document.getElementById("workspaceNextBtn"),
+    workspaceMemberContent: document.getElementById("workspaceMemberContent"),
+    workspaceMemberList: document.getElementById("workspaceMemberList"),
+    workspaceMemberEmptyState: document.getElementById(
+      "workspaceMemberEmptyState"
+    ),
+    workspaceMemberCount: document.getElementById("workspaceMemberCount"),
   };
 
   function formatHoursValue(hours) {
@@ -126,6 +177,17 @@
     });
   }
 
+  function toLocalDateTimeString(date) {
+    const pad = (value) => String(value).padStart(2, "0");
+    const year = date.getFullYear();
+    const month = pad(date.getMonth() + 1);
+    const day = pad(date.getDate());
+    const hours = pad(date.getHours());
+    const minutes = pad(date.getMinutes());
+    const seconds = pad(date.getSeconds());
+    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+  }
+
   app.utils = {
     formatHoursValue,
     formatDateForDisplay,
@@ -134,5 +196,6 @@
     getRangeBounds,
     formatRangeLabel,
     filterActivitiesByBounds,
+    toLocalDateTimeString,
   };
 })(window.TimeTrackr || (window.TimeTrackr = {}));

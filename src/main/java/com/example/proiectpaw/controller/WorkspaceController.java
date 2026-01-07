@@ -1,24 +1,27 @@
 package com.example.proiectpaw.controller;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.example.proiectpaw.model.Workspace;
 import com.example.proiectpaw.model.WorkspaceMember;
 import com.example.proiectpaw.model.WorkspaceMember.Role;
 import com.example.proiectpaw.security.CustomUserDetails;
 import com.example.proiectpaw.service.WorkspaceService;
+import com.example.proiectpaw.service.WorkspaceService.WorkspaceSummary;
 
 @RestController
 @RequestMapping("/api/workspaces")
@@ -35,11 +38,10 @@ public class WorkspaceController {
         if (userDetails == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authenticated");
         }
-        workspaceService.ensureDefaultWorkspace(userDetails.getUsername());
-        List<Workspace> workspaces = workspaceService.getWorkspacesForUser(userDetails.getUsername());
-        return workspaces.stream()
-                .map(workspace -> toDto(workspace, userDetails.getUsername()))
-                .collect(Collectors.toList());
+        List<WorkspaceSummary> summaries = workspaceService.getWorkspaceSummariesForUser(userDetails.getUsername());
+        return summaries.stream()
+            .map(this::toDto)
+            .collect(Collectors.toList());
     }
 
     @PostMapping
@@ -52,8 +54,32 @@ public class WorkspaceController {
         if (request == null || request.getName() == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Workspace name is required");
         }
-        Workspace created = workspaceService.createWorkspace(request.getName(), userDetails.getUsername());
-        return toDto(created, userDetails.getUsername());
+        WorkspaceSummary summary = new WorkspaceSummary(
+            workspaceService.createWorkspace(request.getName(), userDetails.getUsername()),
+            Role.OWNER.name(),
+            userDetails.getUsername());
+        return toDto(summary);
+    }
+
+    @PutMapping("/{workspaceId}")
+    public WorkspaceDto renameWorkspace(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                         @PathVariable Long workspaceId,
+                                         @RequestBody WorkspaceRequest request) {
+        if (userDetails == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authenticated");
+        }
+        if (request == null || request.getName() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Workspace name is required");
+        }
+        try {
+            WorkspaceSummary summary = workspaceService.renameWorkspace(
+                    workspaceId,
+                    userDetails.getUsername(),
+                    request.getName());
+            return toDto(summary);
+        } catch (IllegalArgumentException ex) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage());
+        }
     }
 
     @PostMapping("/{workspaceId}/members")
@@ -78,17 +104,48 @@ public class WorkspaceController {
         workspaceService.inviteMember(workspaceId, userDetails.getUsername(), inviteRequest.getUsername(), role);
     }
 
-    private WorkspaceDto toDto(Workspace workspace, String currentUsername) {
-        WorkspaceMember membership = workspace.getMembers().stream()
-                .filter(m -> m.getUser().getUsername().equals(currentUsername))
-                .findFirst()
-                .orElse(null);
-        String role = membership != null ? membership.getRole() : Role.MEMBER.name();
+    @GetMapping("/{workspaceId}/members")
+    public List<MemberDto> getMembers(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                      @PathVariable Long workspaceId) {
+        if (userDetails == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authenticated");
+        }
+        List<WorkspaceMember> members = workspaceService.getMembers(workspaceId, userDetails.getUsername());
+        return members.stream()
+            .map(this::toMemberDto)
+            .collect(Collectors.toList());
+    }
+
+    @DeleteMapping("/{workspaceId}/members/me")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void leaveWorkspace(@AuthenticationPrincipal CustomUserDetails userDetails,
+                               @PathVariable Long workspaceId) {
+        if (userDetails == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authenticated");
+        }
+        try {
+            workspaceService.leaveWorkspace(workspaceId, userDetails.getUsername());
+        } catch (IllegalArgumentException ex) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage());
+        }
+    }
+
+    private WorkspaceDto toDto(WorkspaceSummary summary) {
+        var workspace = summary.getWorkspace();
         WorkspaceDto dto = new WorkspaceDto();
         dto.setId(workspace.getId());
         dto.setName(workspace.getName());
-        dto.setRole(role);
-        dto.setOwner(workspace.getOwner().getUsername());
+        dto.setRole(summary.getRole());
+        dto.setOwner(summary.getOwnerUsername());
+        return dto;
+    }
+
+    private MemberDto toMemberDto(WorkspaceMember member) {
+        MemberDto dto = new MemberDto();
+        dto.setUsername(member.getUser() != null ? member.getUser().getUsername() : null);
+        dto.setName(member.getUser() != null ? member.getUser().getName() : null);
+        dto.setRole(member.getRole());
+        dto.setJoinedAt(member.getJoinedAt());
         return dto;
     }
 
@@ -122,6 +179,45 @@ public class WorkspaceController {
 
         public void setRole(String role) {
             this.role = role;
+        }
+    }
+
+    public static class MemberDto {
+        private String username;
+        private String name;
+        private String role;
+        private Instant joinedAt;
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getRole() {
+            return role;
+        }
+
+        public void setRole(String role) {
+            this.role = role;
+        }
+
+        public Instant getJoinedAt() {
+            return joinedAt;
+        }
+
+        public void setJoinedAt(Instant joinedAt) {
+            this.joinedAt = joinedAt;
         }
     }
 

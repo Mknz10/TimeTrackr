@@ -3,6 +3,7 @@ package com.example.proiectpaw.dto;
 import java.time.LocalDateTime;
 
 import com.example.proiectpaw.model.Activity;
+import com.example.proiectpaw.model.User;
 import com.example.proiectpaw.model.Workspace;
 import com.example.proiectpaw.model.WorkspaceActivity;
 
@@ -20,6 +21,7 @@ public class UserActivityView {
     private String source;
     private Long workspaceId;
     private String workspaceName;
+    private String memberName;
 
     public UserActivityView() {
     }
@@ -33,6 +35,10 @@ public class UserActivityView {
         view.startTime = activity.getStartTime();
         view.endTime = activity.getEndTime();
         view.source = SOURCE_PERSONAL;
+        User user = activity.getUser();
+        if (user != null) {
+            view.memberName = user.getName();
+        }
         return view;
     }
 
@@ -49,6 +55,10 @@ public class UserActivityView {
         if (workspace != null) {
             view.workspaceId = workspace.getId();
             view.workspaceName = workspace.getName();
+        }
+        User user = activity.getUser();
+        if (user != null) {
+            view.memberName = user.getName();
         }
         return view;
     }
@@ -123,5 +133,13 @@ public class UserActivityView {
 
     public void setWorkspaceName(String workspaceName) {
         this.workspaceName = workspaceName;
+    }
+
+    public String getMemberName() {
+        return memberName;
+    }
+
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
     }
 }

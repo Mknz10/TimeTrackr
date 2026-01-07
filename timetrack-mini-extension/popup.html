@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ro">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TimeTrackr Mini</title>
+    <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+    />
+    <style>
+      :root {
+        color-scheme: light;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 24px;
+        width: 320px;
+        min-height: 420px;
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        background: linear-gradient(135deg, #fce7f3, #fde5eb 45%, #ffffff 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #6b214b;
+      }
+
+      .popup-shell {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding: 22px;
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.82);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        box-shadow: 0 20px 45px rgba(236, 72, 153, 0.18);
+        backdrop-filter: blur(16px);
+      }
+
+      .popup-header {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .popup-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .popup-logo {
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+        box-shadow: 0 6px 16px rgba(236, 72, 153, 0.25);
+      }
+
+      .popup-title {
+        margin: 0;
+        font-size: 1.35rem;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        background: linear-gradient(135deg, #ec4899, #be185d);
+        -webkit-background-clip: text;
+        color: transparent;
+      }
+
+      .popup-subtitle {
+        margin: 0;
+        font-size: 0.78rem;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: rgba(190, 24, 93, 0.7);
+      }
+
+      .status-pill {
+        padding: 10px 14px;
+        border-radius: 999px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        background: rgba(236, 72, 153, 0.12);
+        border: 1px solid rgba(236, 72, 153, 0.22);
+      }
+
+      .status-ok {
+        color: #047857;
+        background: rgba(16, 185, 129, 0.17);
+        border-color: rgba(16, 185, 129, 0.35);
+      }
+
+      .status-warn {
+        color: #b45309;
+        background: rgba(251, 191, 36, 0.18);
+        border-color: rgba(251, 191, 36, 0.4);
+      }
+
+      .status-error {
+        color: #dc2626;
+        background: rgba(248, 113, 113, 0.18);
+        border-color: rgba(248, 113, 113, 0.4);
+      }
+
+      .input-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .input-label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.22em;
+        color: rgba(190, 24, 93, 0.75);
+        font-weight: 600;
+      }
+
+      input[type="text"],
+      select {
+        width: 100%;
+        padding: 11px 14px;
+        border-radius: 14px;
+        border: 1px solid rgba(236, 72, 153, 0.2);
+        background: rgba(255, 255, 255, 0.94);
+        font-size: 0.95rem;
+        color: #831843;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      input[type="text"]::placeholder {
+        color: rgba(131, 24, 67, 0.35);
+      }
+
+      input[type="text"]:focus,
+      select:focus {
+        border-color: rgba(236, 72, 153, 0.55);
+        box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.15);
+        outline: none;
+      }
+
+      .timer-card {
+        position: relative;
+        padding: 18px 20px;
+        border-radius: 20px;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.95),
+          rgba(249, 168, 212, 0.18)
+        );
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        text-align: center;
+      }
+
+      .timer-chip {
+        position: absolute;
+        top: -10px;
+        left: 20px;
+        padding: 4px 12px;
+        border-radius: 999px;
+        background: linear-gradient(
+          135deg,
+          rgba(244, 114, 182, 0.9),
+          rgba(236, 72, 153, 0.9)
+        );
+        color: white;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        font-weight: 600;
+      }
+
+      #timerDisplay {
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        color: #be185d;
+      }
+
+      .btn-group {
+        display: flex;
+        gap: 10px;
+      }
+
+      button {
+        flex: 1;
+        border: none;
+        border-radius: 999px;
+        padding: 11px 0;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.15s ease, box-shadow 0.15s ease,
+          opacity 0.15s ease;
+        color: white;
+      }
+
+      button.primary {
+        background: linear-gradient(135deg, #ec4899, #ee9ce8);
+        box-shadow: 0 12px 25px rgba(236, 72, 153, 0.28);
+      }
+
+      button.secondary {
+        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        box-shadow: 0 12px 25px rgba(99, 102, 241, 0.24);
+      }
+
+      button.ghost {
+        background: rgba(255, 255, 255, 0.85);
+        color: #ec4899;
+        border: 1px solid rgba(236, 72, 153, 0.35);
+        box-shadow: 0 8px 18px rgba(244, 114, 182, 0.15);
+      }
+
+      button:hover:not(:disabled) {
+        transform: translateY(-2px);
+      }
+
+      button:active:not(:disabled) {
+        transform: translateY(0);
+      }
+
+      button:disabled {
+        cursor: not-allowed;
+        opacity: 0.55;
+        box-shadow: none;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        button,
+        input,
+        select {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="popup-shell">
+      <header class="popup-header">
+        <div class="popup-brand">
+          <img
+            src="assets/logo.svg"
+            alt="Sigla TimeTrackr"
+            class="popup-logo"
+          />
+          <div>
+            <h1 class="popup-title">TimeTrackr Mini</h1>
+            <p class="popup-subtitle">Focus rapid</p>
+          </div>
+        </div>
+      </header>
+
+      <div id="statusMessage" class="status-pill status-warn">
+        Verificăm autentificarea...
+      </div>
+
+      <div class="input-group">
+        <label class="input-label" for="activityName">Activitate</label>
+        <input
+          type="text"
+          id="activityName"
+          placeholder="Ex: Revizuire cod"
+          autocomplete="off"
+          required
+        />
+      </div>
+
+      <div class="input-group">
+        <label class="input-label" for="activityCategory">Categorie</label>
+        <select id="activityCategory" required></select>
+      </div>
+
+      <div class="timer-card">
+        <span class="timer-chip">Cronometru</span>
+        <div id="timerDisplay">00:00:00</div>
+      </div>
+
+      <div class="btn-group">
+        <button id="startBtn" class="primary">Pornește</button>
+        <button id="stopBtn" class="secondary">Oprește</button>
+        <button id="sendBtn" class="ghost">Trimite</button>
+      </div>
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

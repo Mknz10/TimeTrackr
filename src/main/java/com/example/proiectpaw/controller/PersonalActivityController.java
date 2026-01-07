@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.example.proiectpaw.dto.UserActivityView;
 import com.example.proiectpaw.model.Activity;
 import com.example.proiectpaw.security.CustomUserDetails;
 import com.example.proiectpaw.service.ActivityService;
@@ -28,7 +29,7 @@ public class PersonalActivityController {
     }
 
     @GetMapping
-    public List<Activity> getPersonalActivities(@AuthenticationPrincipal CustomUserDetails userDetails) {
+    public List<UserActivityView> getPersonalActivities(@AuthenticationPrincipal CustomUserDetails userDetails) {
         if (userDetails == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authenticated");
         }
