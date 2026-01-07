@@ -1,0 +1,18 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="tt-gradient" x1="15" y1="15" x2="113" y2="113" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fbcfe8" />
+      <stop offset="0.45" stop-color="#f472b6" />
+      <stop offset="1" stop-color="#c026d3" />
+    </linearGradient>
+    <linearGradient id="tt-accent" x1="64" y1="22" x2="64" y2="106" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffffff" stop-opacity="0.95" />
+      <stop offset="1" stop-color="#fdf2f8" stop-opacity="0.75" />
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="32" fill="url(#tt-gradient)" />
+  <circle cx="64" cy="64" r="44" fill="rgba(255,255,255,0.24)" />
+  <path d="M38 52c0-3.9 3.1-7 7-7h38c3.9 0 7 3.1 7 7s-3.1 7-7 7H75v29c0 3.9-3.1 7-7 7s-7-3.1-7-7V59H45c-3.9 0-7-3.1-7-7z" fill="url(#tt-accent)" />
+  <path d="M84 38c0-5.5-4.5-10-10-10H54c-5.5 0-10 4.5-10 10s4.5 10 10 10h20c5.5 0 10-4.5 10-10z" fill="rgba(255,255,255,0.4)" />
+  <circle cx="64" cy="82" r="9" fill="#7f1d1d" opacity="0.25" />
+</svg>

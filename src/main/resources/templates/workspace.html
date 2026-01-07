@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ro">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TimeTrackr Workspaces</title>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="/img/timetrackr-logo.svg"
+      th:href="@{/img/timetrackr-logo.svg}"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body
+    class="bg-gradient-to-br from-pink-200 via-pink-100 to-white min-h-screen flex flex-col"
+    style="
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    "
+    data-context="workspace"
+  >
+    <header th:replace="fragments/layout/header :: siteHeader"></header>
+
+    <main class="flex-grow px-6 py-12 max-w-6xl mx-auto space-y-12">
+      <section th:replace="fragments/workspace/hero :: workspaceHeroSection"></section>
+      <section th:replace="fragments/home/stats :: statsSection"></section>
+      <section class="grid grid-cols-1 gap-6 xl:grid-cols-3">
+        <section
+          th:replace="fragments/home/category-card :: categoryCard"
+        ></section>
+        <div class="xl:col-span-2 space-y-6">
+          <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <section
+              th:replace="fragments/home/todo-countdown :: todoCountdown"
+            ></section>
+            <section
+              th:replace="fragments/home/activity-timer :: activityTimer"
+            ></section>
+          </div>
+          <section
+            th:replace="fragments/home/manual-activity :: manualActivity"
+          ></section>
+        </div>
+      </section>
+      <section
+        th:replace="fragments/home/activity-journal :: activityJournalSection"
+      ></section>
+      <div th:replace="fragments/home/charts :: chartsSection"></div>
+    </main>
+
+    <script src="/js/home/globals.js" th:src="@{/js/home/globals.js}"></script>
+    <script src="/js/home/workspaces.js" th:src="@{/js/home/workspaces.js}"></script>
+    <script
+      src="/js/home/categories.js"
+      th:src="@{/js/home/categories.js}"
+    ></script>
+    <script
+      src="/js/home/activity-journal.js"
+      th:src="@{/js/home/activity-journal.js}"
+    ></script>
+    <script
+      src="/js/home/manual-activity.js"
+      th:src="@{/js/home/manual-activity.js}"
+    ></script>
+    <script
+      src="/js/home/activity-timer.js"
+      th:src="@{/js/home/activity-timer.js}"
+    ></script>
+    <script
+      src="/js/home/todo-countdown.js"
+      th:src="@{/js/home/todo-countdown.js}"
+    ></script>
+    <script src="/js/home/init.js" th:src="@{/js/home/init.js}"></script>
+  </body>
+</html>

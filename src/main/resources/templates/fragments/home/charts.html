@@ -1,0 +1,17 @@
+<div th:fragment="chartsSection"
+  id="chartsSection"
+  class="grid grid-cols-1 gap-6 md:grid-cols-2 hidden"
+>
+  <div class="relative overflow-hidden rounded-3xl border border-white/40 bg-white/30 p-6 shadow-lg backdrop-blur">
+    <div class="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/40 to-transparent"></div>
+    <h2 class="text-xl font-semibold text-pink-900">
+      Distribuția timpului pe categorii
+    </h2>
+    <canvas id="timeChart" class="mt-4 w-full rounded-2xl bg-white/50 p-4"></canvas>
+  </div>
+  <div class="relative overflow-hidden rounded-3xl border border-white/40 bg-white/30 p-6 shadow-lg backdrop-blur">
+    <div class="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/40 to-transparent"></div>
+    <h2 class="text-xl font-semibold text-pink-900">Ore pe activități</h2>
+    <canvas id="projectChart" class="mt-4 w-full rounded-2xl bg-white/50 p-4"></canvas>
+  </div>
+</div>

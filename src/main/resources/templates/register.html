@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Înregistrare</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-pink-200 via-pink-100 to-white min-h-screen flex items-center justify-center">
+
+<div class="bg-white bg-opacity-20 backdrop-blur-xl p-8 rounded-2xl shadow-2xl w-full max-w-md text-gray-800 border border-white border-opacity-40">
+    <h2 class="text-3xl font-bold text-center mb-6 text-pink-700">Creează contul tău</h2>
+    <p class="text-center text-pink-600 mb-8">Completează datele pentru a începe</p>
+
+    <form method="post" action="/register" class="space-y-5">
+        <div>
+            <label for="name" class="block text-sm font-medium mb-2 text-pink-800">Nume</label>
+            <input type="text" id="name" name="name" placeholder="Introduceți numele complet"
+                   class="w-full px-4 py-2 rounded-lg bg-white bg-opacity-40 border border-pink-200
+                              focus:outline-none focus:ring-2 focus:ring-pink-400 placeholder-pink-300 text-gray-800"
+                   required />
+        </div>
+
+        <div>
+            <label for="username" class="block text-sm font-medium mb-2 text-pink-800">Utilizator</label>
+            <input type="text" id="username" name="username" placeholder="Alegeți un username"
+                   class="w-full px-4 py-2 rounded-lg bg-white bg-opacity-40 border border-pink-200
+                              focus:outline-none focus:ring-2 focus:ring-pink-400 placeholder-pink-300 text-gray-800"
+                   required />
+        </div>
+
+        <div>
+            <label for="password" class="block text-sm font-medium mb-2 text-pink-800">Parolă</label>
+            <input type="password" id="password" name="password" placeholder="Introduceți o parolă"
+                   class="w-full px-4 py-2 rounded-lg bg-white bg-opacity-40 border border-pink-200
+                              focus:outline-none focus:ring-2 focus:ring-pink-400 placeholder-pink-300 text-gray-800"
+                   required />
+        </div>
+
+        <button type="submit"
+                class="w-full bg-pink-400 hover:bg-pink-500 transition duration-300 ease-in-out py-2 rounded-lg
+                           font-semibold text-white shadow-lg hover:shadow-pink-300/50">
+            Înregistrare
+        </button>
+    </form>
+
+    <p th:if="${error}" th:text="${error}" class="text-red-400 text-center mt-4"></p>
+
+    <p class="text-center text-pink-700 text-sm mt-6">
+        Ai deja cont?
+        <a href="/login" class="text-pink-500 hover:text-pink-600 underline">Autentifică-te</a>
+    </p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,21 @@
+<header th:fragment="siteHeader"
+  class="bg-white bg-opacity-30 backdrop-blur-xl border-b border-white border-opacity-40 shadow-md"
+>
+  <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+    <h1 class="text-2xl font-bold text-pink-700">TimeTrackr</h1>
+    <div class="flex items-center gap-4">
+      <span
+        class="text-pink-600 font-semibold"
+        th:text="${displayName} ?: 'User'"
+      ></span>
+      <form th:action="@{/logout}" method="post">
+        <button
+          type="submit"
+          class="bg-pink-400 text-white px-4 py-2 rounded-lg hover:bg-pink-500 transition"
+        >
+          Logout
+        </button>
+      </form>
+    </div>
+  </div>
+</header>

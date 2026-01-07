@@ -1,0 +1,54 @@
+<section th:fragment="activityJournalSection"
+  class="relative overflow-hidden rounded-3xl border border-white/40 bg-white/30 p-6 shadow-xl backdrop-blur"
+>
+  <div class="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/40 to-transparent"></div>
+  <div class="relative flex flex-col gap-6">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+      <div>
+        <p class="text-m uppercase tracking-[0.35em] text-pink-700/70">
+          Jurnal de activități pentru
+        </p>
+        <h2 class="text-2xl font-semibold text-pink-900">
+          <span id="selectedDateDisplay"></span>
+        </h2>
+      </div>
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
+        <input
+          type="date"
+          id="selectedDate"
+          class="rounded-lg border border-white/60 bg-white/80 p-2 text-pink-900 focus:border-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-300"
+        />
+        <select
+          id="dateRange"
+          class="rounded-lg border border-white/60 bg-white/80 p-2 text-pink-900 focus:border-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-300"
+          aria-label="Interval analiză"
+        >
+          <option value="day">Zi</option>
+          <option value="week">Săptămână</option>
+          <option value="month">Lună</option>
+        </select>
+        <button
+          id="exportCsvBtn"
+          class="rounded-lg bg-pink-500 px-4 py-2 font-semibold text-white shadow-md shadow-pink-500/40 transition hover:bg-pink-600"
+          type="button"
+        >
+          Export CSV
+        </button>
+      </div>
+    </div>
+    <div class="overflow-hidden rounded-2xl border border-white/40 bg-white/20 shadow-inner">
+      <table class="w-full text-left text-pink-900">
+        <thead class="bg-white/40 text-xs uppercase tracking-wider text-pink-700">
+          <tr>
+            <th class="px-4 py-3">Activitate</th>
+            <th class="px-4 py-3">Categorie</th>
+            <th class="px-4 py-3">Timp (ore)</th>
+            <th class="px-4 py-3">Interval</th>
+            <th class="px-4 py-3">Acțiuni</th>
+          </tr>
+        </thead>
+        <tbody id="activityTable" class="divide-y divide-white/40 text-sm"></tbody>
+      </table>
+    </div>
+  </div>
+</section>

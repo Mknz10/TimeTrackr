@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ro">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Setări profil</title>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="/img/timetrackr-logo.svg"
+      th:href="@{/img/timetrackr-logo.svg}"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body
+    class="bg-gradient-to-br from-pink-200 via-pink-100 to-white min-h-screen flex flex-col"
+    style="
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    "
+  >
+    <header th:replace="fragments/layout/header :: siteHeader"></header>
+
+    <main class="flex-grow px-6 py-12 max-w-4xl mx-auto space-y-8">
+      <section class="space-y-3">
+        <h1 class="text-3xl font-semibold text-pink-700">Profilul meu</h1>
+        <p class="text-pink-700/80">
+          Actualizează numele afișat, numele de utilizator sau parola contului tău.
+        </p>
+      </section>
+
+      <section
+        class="bg-white/80 backdrop-blur-xl border border-white/60 rounded-3xl shadow-xl p-8 space-y-6"
+      >
+        <div>
+          <h2 class="text-xl font-semibold text-pink-700">Detalii cont</h2>
+          <p class="text-sm text-pink-700/70">
+            Informațiile actualizate se aplică instant și vor fi folosite la următoarea autentificare.
+          </p>
+        </div>
+
+        <div th:if="${accountSuccess}" class="bg-green-100 text-green-700 px-4 py-3 rounded-lg">
+          <span th:text="${accountSuccess}"></span>
+        </div>
+        <div th:if="${accountError}" class="bg-red-100 text-red-700 px-4 py-3 rounded-lg">
+          <span th:text="${accountError}"></span>
+        </div>
+
+        <form
+          th:action="@{/profile/update-account}"
+          method="post"
+          class="grid gap-6 md:grid-cols-2"
+        >
+          <div class="flex flex-col gap-2">
+            <label for="displayName" class="text-sm font-medium text-pink-600">Nume afișat</label>
+            <input
+              id="displayName"
+              name="name"
+              type="text"
+              maxlength="60"
+              th:value="${currentName}"
+              class="rounded-lg border border-pink-200 bg-white/70 px-4 py-3 focus:border-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-200"
+              placeholder="Nume afișat"
+            />
+          </div>
+          <div class="flex flex-col gap-2">
+            <label for="username" class="text-sm font-medium text-pink-600">Nume utilizator</label>
+            <input
+              id="username"
+              name="username"
+              type="text"
+              maxlength="60"
+              th:value="${currentUsername}"
+              class="rounded-lg border border-pink-200 bg-white/70 px-4 py-3 focus:border-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-200"
+              placeholder="Nume utilizator"
+              required
+            />
+          </div>
+          <div class="md:col-span-2 flex justify-end">
+            <button
+              type="submit"
+              class="bg-pink-500 hover:bg-pink-600 transition text-white font-semibold px-6 py-3 rounded-lg shadow-md shadow-pink-200/50"
+            >
+              Salvează modificările
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <section
+        class="bg-white/80 backdrop-blur-xl border border-white/60 rounded-3xl shadow-xl p-8 space-y-6"
+      >
+        <div>
+          <h2 class="text-xl font-semibold text-pink-700">Schimbă parola</h2>
+          <p class="text-sm text-pink-700/70">
+            Parola trebuie să aibă cel puțin 6 caractere și se recomandă să fie unică pentru acest cont.
+          </p>
+        </div>
+
+        <div th:if="${passwordSuccess}" class="bg-green-100 text-green-700 px-4 py-3 rounded-lg">
+          <span th:text="${passwordSuccess}"></span>
+        </div>
+        <div th:if="${passwordError}" class="bg-red-100 text-red-700 px-4 py-3 rounded-lg">
+          <span th:text="${passwordError}"></span>
+        </div>
+
+        <form th:action="@{/profile/update-password}" method="post" class="grid gap-6">
+          <div class="flex flex-col gap-2">
+            <label for="currentPassword" class="text-sm font-medium text-pink-600">Parola curentă</label>
+            <input
+              id="currentPassword"
+              name="currentPassword"
+              type="password"
+              autocomplete="current-password"
+              required
+              class="rounded-lg border border-pink-200 bg-white/70 px-4 py-3 focus:border-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-200"
+              placeholder="Parola curentă"
+            />
+          </div>
+          <div class="flex flex-col gap-2">
+            <label for="newPassword" class="text-sm font-medium text-pink-600">Parolă nouă</label>
+            <input
+              id="newPassword"
+              name="newPassword"
+              type="password"
+              autocomplete="new-password"
+              minlength="6"
+              required
+              class="rounded-lg border border-pink-200 bg-white/70 px-4 py-3 focus:border-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-200"
+              placeholder="Parolă nouă"
+            />
+          </div>
+          <div class="flex flex-col gap-2">
+            <label for="confirmPassword" class="text-sm font-medium text-pink-600">Confirmă parola nouă</label>
+            <input
+              id="confirmPassword"
+              name="confirmPassword"
+              type="password"
+              autocomplete="new-password"
+              required
+              class="rounded-lg border border-pink-200 bg-white/70 px-4 py-3 focus:border-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-200"
+              placeholder="Confirmă parola"
+            />
+          </div>
+          <div class="flex justify-end">
+            <button
+              type="submit"
+              class="bg-pink-500 hover:bg-pink-600 transition text-white font-semibold px-6 py-3 rounded-lg shadow-md shadow-pink-200/50"
+            >
+              Actualizează parola
+            </button>
+          </div>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>
